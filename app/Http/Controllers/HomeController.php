@@ -68,4 +68,16 @@ class HomeController extends Controller
 
         return redirect( route('home') );
     }
+
+    public function destroy(Request $request)
+    {
+        $posts = $request->all();
+
+        //whereで更新する箇所を指定
+        //Memo::where('id', $posts['memo_id'])->delete<-これやると物理削除になってしまう
+        //updateメソッドで時間をdeleted_atに入れる
+        Memo::where('id', $posts['memo_id'])->update(['deleted_at' => date("Y-m-d H:i:s", time())]);
+
+        return redirect( route('home') );
+    }
 }
